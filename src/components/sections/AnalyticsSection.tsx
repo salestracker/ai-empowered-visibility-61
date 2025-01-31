@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { NaturalLanguageQuery } from "@/components/NaturalLanguageQuery";
 
 const salesData = [
   { name: "Mon", value: 4000 },
@@ -90,6 +91,11 @@ export function AnalyticsSection() {
           </Select>
           <Button variant="outline" onClick={handleExport}>Export Report</Button>
         </div>
+      </div>
+
+      <div className="bg-white p-6 rounded-lg shadow mb-6">
+        <h3 className="text-lg font-semibold mb-4">Natural Language Analytics</h3>
+        <NaturalLanguageQuery />
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

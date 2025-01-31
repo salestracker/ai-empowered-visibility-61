@@ -8,6 +8,7 @@ import { useToast } from "@/components/ui/use-toast";
 
 const Index = () => {
   const [isOnline, setIsOnline] = useState(navigator.onLine);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -37,13 +38,19 @@ const Index = () => {
     };
   }, [toast]);
 
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-gray-50">
-      <div className="md:hidden">
+      {/* Mobile Header with Burger Menu */}
+      <div className="sticky top-0 z-40 md:hidden bg-white border-b border-gray-200">
         <button
           type="button"
-          className="p-4 text-gray-600"
-          onClick={() => document.querySelector('[data-sidebar]')?.classList.toggle('hidden')}
+          className="p-4 text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"
+          onClick={toggleSidebar}
+          aria-label="Toggle sidebar"
         >
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
@@ -51,10 +58,15 @@ const Index = () => {
         </button>
       </div>
       
-      <div className="hidden md:block">
-        <Sidebar />
+      {/* Sidebar */}
+      <div className={`${isSidebarOpen ? 'block' : 'hidden'} md:block fixed inset-0 z-30 md:relative md:inset-auto`}>
+        <div className="absolute inset-0 bg-gray-600 bg-opacity-75 md:hidden" onClick={toggleSidebar} />
+        <div className="relative h-full">
+          <Sidebar />
+        </div>
       </div>
       
+      {/* Main Content */}
       <main className="flex-1 p-4 md:p-8 overflow-y-auto">
         <div className="max-w-7xl mx-auto">
           <h1 className="text-xl md:text-2xl font-bold text-gray-900 mb-6 md:mb-8">Dashboard Overview</h1>

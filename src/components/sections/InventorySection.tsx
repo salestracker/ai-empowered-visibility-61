@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { DeadStockManagement } from "@/components/inventory/DeadStockManagement";
 import { InventoryItemForm } from "@/components/inventory/InventoryItemForm";
+import { StockLevelManager } from "@/components/inventory/StockLevelManager";
 
 export function InventorySection() {
   const [showForm, setShowForm] = useState(false);
@@ -21,6 +22,7 @@ export function InventorySection() {
         </div>
       )}
 
+      <StockLevelManager />
       <DeadStockManagement />
     </div>
   );

@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
+import { Download, RefreshCw } from "lucide-react";
 
 // Sample forecast data
 const forecastData = {
@@ -30,26 +31,56 @@ const forecastData = {
 
 export function DemandForecast() {
   const [timeframe, setTimeframe] = useState("next_week");
+  const [isRefreshing, setIsRefreshing] = useState(false);
   const { toast } = useToast();
 
   const handleExport = () => {
-    const csvContent = "data:text/csv;charset=utf-8,Day,Actual,Forecast\n" + 
-      forecastData[timeframe as keyof typeof forecastData]
-        .map(row => `${row.day},${row.actual},${row.forecast}`)
-        .join("\n");
-    
-    const encodedUri = encodeURI(csvContent);
-    const link = document.createElement("a");
-    link.setAttribute("href", encodedUri);
-    link.setAttribute("download", `demand_forecast_${timeframe}.csv`);
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    try {
+      const csvContent = "data:text/csv;charset=utf-8,Day,Actual,Forecast\n" + 
+        forecastData[timeframe as keyof typeof forecastData]
+          .map(row => `${row.day},${row.actual},${row.forecast}`)
+          .join("\n");
+      
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", `demand_forecast_${timeframe}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
 
-    toast({
-      title: "Forecast Exported",
-      description: `Demand forecast for ${timeframe.replace("_", " ")} has been downloaded.`,
-    });
+      toast({
+        title: "Forecast Exported",
+        description: `Demand forecast for ${timeframe.replace("_", " ")} has been downloaded.`,
+      });
+    } catch (error) {
+      toast({
+        title: "Export Failed",
+        description: "There was an error exporting the forecast data. Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleRefresh = async () => {
+    setIsRefreshing(true);
+    try {
+      // Simulate API call to refresh forecast data
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      
+      toast({
+        title: "Forecast Updated",
+        description: "The demand forecast has been refreshed with latest data.",
+      });
+    } catch (error) {
+      toast({
+        title: "Update Failed",
+        description: "Failed to refresh forecast data. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsRefreshing(false);
+    }
   };
 
   return (
@@ -67,7 +98,23 @@ export function DemandForecast() {
               <SelectItem value="next_quarter">Next Quarter</SelectItem>
             </SelectContent>
           </Select>
-          <Button variant="outline" onClick={handleExport}>Export Forecast</Button>
+          <Button 
+            variant="outline" 
+            onClick={handleRefresh} 
+            disabled={isRefreshing}
+            className="gap-2"
+          >
+            <RefreshCw className={`h-4 w-4 ${isRefreshing ? 'animate-spin' : ''}`} />
+            Refresh
+          </Button>
+          <Button 
+            variant="outline" 
+            onClick={handleExport}
+            className="gap-2"
+          >
+            <Download className="h-4 w-4" />
+            Export
+          </Button>
         </div>
       </div>
 

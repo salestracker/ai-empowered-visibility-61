@@ -69,9 +69,18 @@ export function InventorySection() {
   const handleUpdateStock = () => {
     if (!selectedItem) return;
     
+    const newStock = parseInt(prompt("Enter new stock quantity:", selectedItem.stock.toString()) || "0");
+    if (isNaN(newStock) || newStock < 0) {
+      toast({
+        title: "Error",
+        description: "Please enter a valid number",
+        variant: "destructive",
+      });
+      return;
+    }
+    
     const updatedItems = inventoryItems.map(item => {
       if (item.id === selectedItem.id) {
-        const newStock = item.stock + 1;
         const status = newStock <= 2 ? "critical" : newStock <= 5 ? "low" : "normal";
         return { ...item, stock: newStock, status };
       }
@@ -83,7 +92,7 @@ export function InventorySection() {
     setShowItemDetails(false);
     toast({
       title: "Stock Updated",
-      description: `Updated stock for ${selectedItem.name}`,
+      description: `Updated stock for ${selectedItem.name} to ${newStock} units`,
     });
   };
 
@@ -166,9 +175,10 @@ export function InventorySection() {
           {selectedItem && (
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
-                <div className="p-4 bg-gray-50 rounded-lg">
+                <div className="p-4 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100" onClick={handleUpdateStock}>
                   <h4 className="font-medium mb-2">Stock Level</h4>
                   <p className="text-2xl font-bold">{selectedItem.stock} units</p>
+                  <p className="text-sm text-gray-500 mt-1">Click to update</p>
                 </div>
                 <div className="p-4 bg-gray-50 rounded-lg">
                   <h4 className="font-medium mb-2">Category</h4>

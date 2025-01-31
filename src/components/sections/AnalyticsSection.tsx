@@ -2,6 +2,7 @@ import { useState } from "react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useToast } from "@/components/ui/use-toast";
 
 const salesData = [
   { name: "Mon", value: 4000 },
@@ -15,6 +16,28 @@ const salesData = [
 
 export function AnalyticsSection() {
   const [timeframe, setTimeframe] = useState("week");
+  const { toast } = useToast();
+
+  const handleExport = () => {
+    toast({
+      title: "Report Export Started",
+      description: "Your analytics report will be ready for download shortly.",
+    });
+  };
+
+  const handleViewItems = () => {
+    toast({
+      title: "Low Stock Items",
+      description: "Viewing 12 items that need restocking.",
+    });
+  };
+
+  const handleManageStock = () => {
+    toast({
+      title: "Stock Management",
+      description: "Opening stock management interface.",
+    });
+  };
 
   return (
     <div className="space-y-6">
@@ -32,7 +55,7 @@ export function AnalyticsSection() {
               <SelectItem value="year">This Year</SelectItem>
             </SelectContent>
           </Select>
-          <Button variant="outline">Export Report</Button>
+          <Button variant="outline" onClick={handleExport}>Export Report</Button>
         </div>
       </div>
 
@@ -83,14 +106,14 @@ export function AnalyticsSection() {
                 <span>Low Stock Items</span>
                 <span className="font-medium text-yellow-600">12 items</span>
               </div>
-              <Button variant="outline" className="w-full mt-2">View Items</Button>
+              <Button variant="outline" className="w-full mt-2" onClick={handleViewItems}>View Items</Button>
             </div>
             <div className="p-4 bg-red-50 rounded-lg">
               <div className="flex justify-between mb-2">
                 <span>Dead Stock Value</span>
                 <span className="font-medium text-red-600">$5,240</span>
               </div>
-              <Button variant="outline" className="w-full mt-2">Manage Stock</Button>
+              <Button variant="outline" className="w-full mt-2" onClick={handleManageStock}>Manage Stock</Button>
             </div>
           </div>
         </div>

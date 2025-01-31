@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
+import { useToast } from "@/components/ui/use-toast";
 
 const inventoryItems = [
   { id: 1, name: "Product A", stock: 2, status: "low", category: "Electronics" },
@@ -16,6 +17,28 @@ export function InventorySection() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedItem, setSelectedItem] = useState<typeof inventoryItems[0] | null>(null);
   const [showItemDetails, setShowItemDetails] = useState(false);
+  const { toast } = useToast();
+
+  const handleAddNewItem = () => {
+    toast({
+      title: "Add New Item",
+      description: "Opening new item form...",
+    });
+  };
+
+  const handleUpdateStock = () => {
+    toast({
+      title: "Stock Updated",
+      description: `Updated stock for ${selectedItem?.name}`,
+    });
+  };
+
+  const handleViewHistory = () => {
+    toast({
+      title: "Item History",
+      description: `Viewing history for ${selectedItem?.name}`,
+    });
+  };
 
   const filteredItems = inventoryItems.filter(item =>
     item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -37,7 +60,7 @@ export function InventorySection() {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-bold">Inventory Management</h2>
-        <Button>Add New Item</Button>
+        <Button onClick={handleAddNewItem}>Add New Item</Button>
       </div>
 
       <div className="relative">
@@ -99,8 +122,8 @@ export function InventorySection() {
                 </div>
               </div>
               <div className="flex gap-2">
-                <Button className="flex-1">Update Stock</Button>
-                <Button variant="outline" className="flex-1">View History</Button>
+                <Button className="flex-1" onClick={handleUpdateStock}>Update Stock</Button>
+                <Button variant="outline" className="flex-1" onClick={handleViewHistory}>View History</Button>
               </div>
             </div>
           )}

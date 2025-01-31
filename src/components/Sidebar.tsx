@@ -1,15 +1,38 @@
 import { Home, BarChart2, Users, Box, Settings, LogOut } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useState } from "react";
 
 const menuItems = [
-  { icon: Home, label: "Dashboard", active: true },
-  { icon: BarChart2, label: "Analytics" },
-  { icon: Users, label: "Customers" },
-  { icon: Box, label: "Inventory" },
-  { icon: Settings, label: "Settings" },
+  { 
+    icon: Home, 
+    label: "Dashboard", 
+    content: "dashboard"
+  },
+  { 
+    icon: BarChart2, 
+    label: "Analytics", 
+    content: "analytics"
+  },
+  { 
+    icon: Users, 
+    label: "Customers", 
+    content: "customers"
+  },
+  { 
+    icon: Box, 
+    label: "Inventory", 
+    content: "inventory"
+  },
+  { 
+    icon: Settings, 
+    label: "Settings", 
+    content: "settings"
+  },
 ];
 
 export function Sidebar() {
+  const [activeItem, setActiveItem] = useState("Dashboard");
+
   return (
     <div className="h-screen w-64 bg-white border-r border-gray-200 flex flex-col">
       <div className="p-6">
@@ -21,9 +44,13 @@ export function Sidebar() {
           <a
             key={item.label}
             href="#"
+            onClick={(e) => {
+              e.preventDefault();
+              setActiveItem(item.label);
+            }}
             className={cn(
               "flex items-center gap-3 px-4 py-3 text-gray-700 rounded-lg mb-1 hover:bg-gray-100 transition-colors",
-              item.active && "bg-blue-50 text-blue-600"
+              activeItem === item.label && "bg-blue-50 text-blue-600"
             )}
           >
             <item.icon className="w-5 h-5" />

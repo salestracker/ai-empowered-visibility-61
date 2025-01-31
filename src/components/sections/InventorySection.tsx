@@ -2,11 +2,13 @@ import { useState } from "react";
 import { Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/components/ui/use-toast";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
-const inventoryItems = [
+const initialInventoryItems = [
   { id: 1, name: "Product A", stock: 2, status: "low", category: "Electronics" },
   { id: 2, name: "Product B", stock: 15, status: "normal", category: "Clothing" },
   { id: 3, name: "Product C", stock: 8, status: "normal", category: "Electronics" },
@@ -14,22 +16,74 @@ const inventoryItems = [
 ];
 
 export function InventorySection() {
+  const [inventoryItems, setInventoryItems] = useState(initialInventoryItems);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedItem, setSelectedItem] = useState<typeof inventoryItems[0] | null>(null);
   const [showItemDetails, setShowItemDetails] = useState(false);
+  const [showNewItemDialog, setShowNewItemDialog] = useState(false);
+  const [newItem, setNewItem] = useState({
+    name: "",
+    stock: "",
+    category: "Electronics",
+  });
   const { toast } = useToast();
 
   const handleAddNewItem = () => {
+    setNewItem({
+      name: "",
+      stock: "",
+      category: "Electronics",
+    });
+    setShowNewItemDialog(true);
+  };
+
+  const handleSaveNewItem = () => {
+    if (!newItem.name || !newItem.stock) {
+      toast({
+        title: "Error",
+        description: "Please fill in all required fields",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const stockNum = parseInt(newItem.stock);
+    const status = stockNum <= 2 ? "critical" : stockNum <= 5 ? "low" : "normal";
+
+    const item = {
+      id: inventoryItems.length + 1,
+      name: newItem.name,
+      stock: stockNum,
+      status,
+      category: newItem.category,
+    };
+
+    setInventoryItems([...inventoryItems, item]);
+    setShowNewItemDialog(false);
     toast({
-      title: "Add New Item",
-      description: "Opening new item form...",
+      title: "Success",
+      description: "New item added successfully",
     });
   };
 
   const handleUpdateStock = () => {
+    if (!selectedItem) return;
+    
+    const updatedItems = inventoryItems.map(item => {
+      if (item.id === selectedItem.id) {
+        const newStock = item.stock + 1;
+        const status = newStock <= 2 ? "critical" : newStock <= 5 ? "low" : "normal";
+        return { ...item, stock: newStock, status };
+      }
+      return item;
+    });
+    
+    setInventoryItems(updatedItems);
+    setSelectedItem(null);
+    setShowItemDetails(false);
     toast({
       title: "Stock Updated",
-      description: `Updated stock for ${selectedItem?.name}`,
+      description: `Updated stock for ${selectedItem.name}`,
     });
   };
 
@@ -127,6 +181,55 @@ export function InventorySection() {
               </div>
             </div>
           )}
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={showNewItemDialog} onOpenChange={setShowNewItemDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Add New Item</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="name">Item Name</Label>
+              <Input
+                id="name"
+                value={newItem.name}
+                onChange={(e) => setNewItem({ ...newItem, name: e.target.value })}
+                placeholder="Enter item name"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="stock">Initial Stock</Label>
+              <Input
+                id="stock"
+                type="number"
+                value={newItem.stock}
+                onChange={(e) => setNewItem({ ...newItem, stock: e.target.value })}
+                placeholder="Enter initial stock"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="category">Category</Label>
+              <Select
+                value={newItem.category}
+                onValueChange={(value) => setNewItem({ ...newItem, category: value })}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Select category" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Electronics">Electronics</SelectItem>
+                  <SelectItem value="Clothing">Clothing</SelectItem>
+                  <SelectItem value="Accessories">Accessories</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setShowNewItemDialog(false)}>Cancel</Button>
+            <Button onClick={handleSaveNewItem}>Save Item</Button>
+          </DialogFooter>
         </DialogContent>
       </Dialog>
     </div>

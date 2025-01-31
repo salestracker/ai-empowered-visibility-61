@@ -1,43 +1,17 @@
-import { useState, useEffect } from "react";
-import { useToast } from "@/components/ui/use-toast";
+import { useState } from "react";
 import { Sidebar } from "@/components/Sidebar";
 import { MobileHeader } from "@/components/layout/MobileHeader";
 import { DashboardSection } from "@/components/sections/DashboardSection";
 import { AnalyticsSection } from "@/components/sections/AnalyticsSection";
 import { InventorySection } from "@/components/sections/InventorySection";
+import { HeroSection } from "@/components/sections/HeroSection";
+import { FeaturesSection } from "@/components/sections/FeaturesSection";
 
 const Index = () => {
-  const [isOnline, setIsOnline] = useState(navigator.onLine);
+  const [isOnline] = useState(navigator.onLine);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("Dashboard");
-  const { toast } = useToast();
-
-  useEffect(() => {
-    const handleOnline = () => {
-      setIsOnline(true);
-      toast({
-        title: "Back online",
-        description: "Your connection has been restored",
-      });
-    };
-
-    const handleOffline = () => {
-      setIsOnline(false);
-      toast({
-        title: "You're offline",
-        description: "Some features may be limited",
-        variant: "destructive",
-      });
-    };
-
-    window.addEventListener('online', handleOnline);
-    window.addEventListener('offline', handleOffline);
-
-    return () => {
-      window.removeEventListener('online', handleOnline);
-      window.removeEventListener('offline', handleOffline);
-    };
-  }, [toast]);
+  const [isLoggedIn] = useState(false);
 
   const renderContent = () => {
     switch (activeSection) {
@@ -49,6 +23,15 @@ const Index = () => {
         return <DashboardSection />;
     }
   };
+
+  if (!isLoggedIn) {
+    return (
+      <div className="min-h-screen bg-white">
+        <HeroSection />
+        <FeaturesSection />
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-gray-50" role="application">

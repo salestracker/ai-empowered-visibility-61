@@ -1,49 +1,111 @@
+import { useState } from "react";
+import { Search } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Badge } from "@/components/ui/badge";
+
+const inventoryItems = [
+  { id: 1, name: "Product A", stock: 2, status: "low", category: "Electronics" },
+  { id: 2, name: "Product B", stock: 15, status: "normal", category: "Clothing" },
+  { id: 3, name: "Product C", stock: 8, status: "normal", category: "Electronics" },
+  { id: 4, name: "Product D", stock: 1, status: "critical", category: "Accessories" },
+];
+
 export function InventorySection() {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedItem, setSelectedItem] = useState<typeof inventoryItems[0] | null>(null);
+  const [showItemDetails, setShowItemDetails] = useState(false);
+
+  const filteredItems = inventoryItems.filter(item =>
+    item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    item.category.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case "low":
+        return "bg-yellow-100 text-yellow-800";
+      case "critical":
+        return "bg-red-100 text-red-800";
+      default:
+        return "bg-green-100 text-green-800";
+    }
+  };
+
   return (
     <div className="space-y-6">
-      <h2 className="text-2xl font-bold">Inventory Management</h2>
+      <div className="flex justify-between items-center">
+        <h2 className="text-2xl font-bold">Inventory Management</h2>
+        <Button>Add New Item</Button>
+      </div>
+
+      <div className="relative">
+        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+        <Input
+          type="text"
+          placeholder="Search inventory..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="pl-10"
+        />
+      </div>
+
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="p-6 bg-white rounded-lg shadow">
-          <h3 className="text-lg font-semibold mb-2">Low Stock Alert</h3>
-          <div className="space-y-4">
-            <div className="p-4 bg-red-50 rounded-lg">
-              <p className="text-red-700 font-medium">5 items below reorder point</p>
-              <ul className="mt-2 space-y-2">
-                <li className="text-sm">Product A - 2 units left</li>
-                <li className="text-sm">Product B - 3 units left</li>
-                <li className="text-sm">Product C - 1 unit left</li>
-              </ul>
+        {filteredItems.map((item) => (
+          <div
+            key={item.id}
+            className="p-6 bg-white rounded-lg shadow hover:shadow-md transition-shadow cursor-pointer"
+            onClick={() => {
+              setSelectedItem(item);
+              setShowItemDetails(true);
+            }}
+          >
+            <div className="flex justify-between items-start mb-4">
+              <h3 className="text-lg font-semibold">{item.name}</h3>
+              <Badge variant="secondary">{item.category}</Badge>
             </div>
-          </div>
-        </div>
-        <div className="p-6 bg-white rounded-lg shadow">
-          <h3 className="text-lg font-semibold mb-2">Incoming Shipments</h3>
-          <div className="space-y-4">
-            <div className="p-4 bg-blue-50 rounded-lg">
-              <p className="text-blue-700 font-medium">3 shipments arriving soon</p>
-              <ul className="mt-2 space-y-2">
-                <li className="text-sm">Shipment #123 - ETA 2 days</li>
-                <li className="text-sm">Shipment #124 - ETA 4 days</li>
-                <li className="text-sm">Shipment #125 - ETA 1 week</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <div className="p-6 bg-white rounded-lg shadow">
-          <h3 className="text-lg font-semibold mb-2">Storage Utilization</h3>
-          <div className="space-y-4">
-            <div className="p-4 bg-gray-50 rounded-lg">
-              <p className="text-gray-700 font-medium">Warehouse Capacity</p>
-              <div className="mt-2">
-                <div className="w-full bg-gray-200 rounded-full h-2.5">
-                  <div className="bg-blue-600 h-2.5 rounded-full" style={{ width: '75%' }}></div>
-                </div>
-                <p className="text-sm mt-1">75% utilized</p>
+            <div className="space-y-2">
+              <div className="flex justify-between">
+                <span>Current Stock</span>
+                <span className="font-medium">{item.stock} units</span>
+              </div>
+              <div className="flex justify-between">
+                <span>Status</span>
+                <span className={`px-2 py-1 rounded-full text-sm ${getStatusColor(item.status)}`}>
+                  {item.status}
+                </span>
               </div>
             </div>
           </div>
-        </div>
+        ))}
       </div>
+
+      <Dialog open={showItemDetails} onOpenChange={setShowItemDetails}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{selectedItem?.name} Details</DialogTitle>
+          </DialogHeader>
+          {selectedItem && (
+            <div className="space-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div className="p-4 bg-gray-50 rounded-lg">
+                  <h4 className="font-medium mb-2">Stock Level</h4>
+                  <p className="text-2xl font-bold">{selectedItem.stock} units</p>
+                </div>
+                <div className="p-4 bg-gray-50 rounded-lg">
+                  <h4 className="font-medium mb-2">Category</h4>
+                  <p className="text-2xl font-bold">{selectedItem.category}</p>
+                </div>
+              </div>
+              <div className="flex gap-2">
+                <Button className="flex-1">Update Stock</Button>
+                <Button variant="outline" className="flex-1">View History</Button>
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

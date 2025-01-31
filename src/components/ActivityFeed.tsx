@@ -1,53 +1,55 @@
-import { Activity, Package, DollarSign, Users, AlertCircle } from "lucide-react";
+import { Activity, ShoppingCart, Truck, RotateCcw, AlertCircle, DollarSign } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const activities = [
   {
     id: 1,
     title: "New order received",
-    description: "Order #1234 from John Doe - $1,500",
+    description: "Order #1234 from John Doe - 3 items, $245",
     time: "5 minutes ago",
     type: "order",
   },
   {
     id: 2,
-    title: "Inventory update",
-    description: "Stock level updated for 15 items in Warehouse A",
+    title: "Shipment dispatched",
+    description: "Order #1230 shipped via FedEx - Tracking: FX123456789",
     time: "1 hour ago",
-    type: "inventory",
+    type: "shipping",
   },
   {
     id: 3,
-    title: "Payment received",
-    description: "Payment of $1,500 received for Invoice #5678",
+    title: "Return request",
+    description: "Return #567 initiated for Order #1228 - Reason: Wrong size",
     time: "2 hours ago",
-    type: "payment",
+    type: "return",
   },
   {
     id: 4,
-    title: "New employee onboarded",
-    description: "Sarah Smith joined the Sales department",
+    title: "Low stock alert",
+    description: "Product SKU-789 has reached reorder point (5 units remaining)",
     time: "3 hours ago",
-    type: "hr",
+    type: "inventory",
   },
   {
     id: 5,
-    title: "System alert",
-    description: "Database backup completed successfully",
+    title: "Payment received",
+    description: "Payment of $180 received for Order #1232",
     time: "4 hours ago",
-    type: "system",
+    type: "payment",
   }
 ];
 
 const getActivityIcon = (type: string) => {
   switch (type) {
     case "order":
-      return Package;
+      return ShoppingCart;
+    case "shipping":
+      return Truck;
+    case "return":
+      return RotateCcw;
     case "payment":
       return DollarSign;
-    case "hr":
-      return Users;
-    case "system":
+    case "inventory":
       return AlertCircle;
     default:
       return Activity;

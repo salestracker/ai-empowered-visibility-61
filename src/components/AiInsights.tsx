@@ -4,25 +4,25 @@ import { cn } from "@/lib/utils";
 const insights = [
   {
     id: 1,
-    title: "Sales Prediction",
-    description: "Based on current trends and seasonal patterns, expect a 15% increase in sales next month.",
-    confidence: 85,
+    title: "Sales Forecast",
+    description: "Based on current trends, expect a 25% increase in order volume next week. Consider increasing customer support staff.",
+    confidence: 92,
     type: "prediction",
     impact: "high",
   },
   {
     id: 2,
     title: "Inventory Alert",
-    description: "3 items are predicted to go out of stock within 2 weeks. Recommended reorder quantity calculated.",
-    confidence: 92,
+    description: "5 popular items will likely stock out within 10 days. Recommended reorder quantities calculated.",
+    confidence: 88,
     type: "alert",
     impact: "medium",
   },
   {
     id: 3,
-    title: "Cash Flow Analysis",
-    description: "Positive cash flow trend detected. 23% improvement compared to last quarter.",
-    confidence: 88,
+    title: "Customer Behavior",
+    description: "Surge in mobile purchases detected. Consider optimizing mobile checkout experience.",
+    confidence: 85,
     type: "analysis",
     impact: "high",
   }

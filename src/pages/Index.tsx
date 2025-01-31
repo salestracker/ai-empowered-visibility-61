@@ -3,7 +3,9 @@ import { Sidebar } from "@/components/Sidebar";
 import { MobileHeader } from "@/components/layout/MobileHeader";
 import { DashboardSection } from "@/components/sections/DashboardSection";
 import { AnalyticsSection } from "@/components/sections/AnalyticsSection";
+import { CustomersSection } from "@/components/sections/CustomersSection";
 import { InventorySection } from "@/components/sections/InventorySection";
+import { SettingsSection } from "@/components/sections/SettingsSection";
 import { HeroSection } from "@/components/sections/HeroSection";
 import { FeaturesSection } from "@/components/sections/FeaturesSection";
 import { useToast } from "@/components/ui/use-toast";
@@ -36,8 +38,12 @@ const Index = () => {
     switch (activeSection) {
       case "Analytics":
         return <AnalyticsSection />;
+      case "Customers":
+        return <CustomersSection />;
       case "Inventory":
         return <InventorySection />;
+      case "Settings":
+        return <SettingsSection />;
       default:
         return <DashboardSection />;
     }

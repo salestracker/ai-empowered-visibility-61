@@ -1,6 +1,5 @@
 import { Home, BarChart2, Users, Box, Settings, LogOut } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
 
 const menuItems = [
   { 
@@ -30,9 +29,12 @@ const menuItems = [
   },
 ];
 
-export function Sidebar() {
-  const [activeItem, setActiveItem] = useState("Dashboard");
+interface SidebarProps {
+  activeSection: string;
+  onSectionChange: (section: string) => void;
+}
 
+export function Sidebar({ activeSection, onSectionChange }: SidebarProps) {
   return (
     <div className="h-screen w-64 bg-white border-r border-gray-200 flex flex-col">
       <div className="p-6">
@@ -46,11 +48,11 @@ export function Sidebar() {
             href="#"
             onClick={(e) => {
               e.preventDefault();
-              setActiveItem(item.label);
+              onSectionChange(item.label);
             }}
             className={cn(
               "flex items-center gap-3 px-4 py-3 text-gray-700 rounded-lg mb-1 hover:bg-gray-100 transition-colors",
-              activeItem === item.label && "bg-blue-50 text-blue-600"
+              activeSection === item.label && "bg-blue-50 text-blue-600"
             )}
           >
             <item.icon className="w-5 h-5" />

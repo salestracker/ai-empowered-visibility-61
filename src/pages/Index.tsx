@@ -217,7 +217,13 @@ const Index = () => {
           role="presentation"
         />
         <div className="relative h-full">
-          <Sidebar />
+          <Sidebar 
+            activeSection={activeSection} 
+            onSectionChange={(section) => {
+              setActiveSection(section);
+              setIsSidebarOpen(false);
+            }}
+          />
         </div>
       </div>
       

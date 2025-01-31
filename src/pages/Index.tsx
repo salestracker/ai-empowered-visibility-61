@@ -6,12 +6,31 @@ import { AnalyticsSection } from "@/components/sections/AnalyticsSection";
 import { InventorySection } from "@/components/sections/InventorySection";
 import { HeroSection } from "@/components/sections/HeroSection";
 import { FeaturesSection } from "@/components/sections/FeaturesSection";
+import { useToast } from "@/components/ui/use-toast";
 
 const Index = () => {
   const [isOnline] = useState(navigator.onLine);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("Dashboard");
-  const [isLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { toast } = useToast();
+
+  const handleLogin = () => {
+    setIsLoggedIn(true);
+    toast({
+      title: "Welcome!",
+      description: "You are now logged in to the demo.",
+    });
+  };
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    setActiveSection("Dashboard");
+    toast({
+      title: "Logged out",
+      description: "You have been logged out of the demo.",
+    });
+  };
 
   const renderContent = () => {
     switch (activeSection) {
@@ -27,7 +46,7 @@ const Index = () => {
   if (!isLoggedIn) {
     return (
       <div className="min-h-screen bg-white">
-        <HeroSection />
+        <HeroSection onLogin={handleLogin} />
         <FeaturesSection />
       </div>
     );
@@ -54,6 +73,7 @@ const Index = () => {
               setActiveSection(section);
               setIsSidebarOpen(false);
             }}
+            onLogout={handleLogout}
           />
         </div>
       </div>

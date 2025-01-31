@@ -1,7 +1,11 @@
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-export function HeroSection() {
+interface HeroSectionProps {
+  onLogin: () => void;
+}
+
+export function HeroSection({ onLogin }: HeroSectionProps) {
   return (
     <div className="relative py-20 overflow-hidden bg-white">
       <div className="container mx-auto px-4">
@@ -14,10 +18,10 @@ export function HeroSection() {
               Streamline your operations, boost efficiency, and make data-driven decisions with our intelligent ERP solution.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-              <Button size="lg" className="gap-2">
+              <Button size="lg" className="gap-2" onClick={onLogin}>
                 Get Started <ArrowRight className="w-4 h-4" />
               </Button>
-              <Button size="lg" variant="outline">
+              <Button size="lg" variant="outline" onClick={onLogin}>
                 Book a Demo
               </Button>
             </div>

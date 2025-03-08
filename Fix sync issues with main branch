@@ -1,0 +1,6 @@
+# Merge the main branch into the current branch to resolve conflicts
+git fetch origin
+git checkout main
+git pull origin main
+git checkout -b fix-sync-issues
+git merge main

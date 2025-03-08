@@ -1,0 +1,6 @@
+# Merge all other branch updates into the current pull request
+git fetch origin
+git checkout main
+git pull origin main
+git checkout -b merge-updates
+git merge main

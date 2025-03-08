@@ -11,6 +11,16 @@
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="icon" href="/icon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <style>
+      /* Inlined CSS from dist folder */
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+      body {
+        background-color: #ffffff;
+        color: #222222;
+        font-family: 'Inter', sans-serif;
+      }
+      /* Add other inlined CSS here */
+    </style>
   </head>
   <body>
     <div id="root"></div>
@@ -19,6 +29,14 @@
         Please enable JavaScript to use this application.
       </div>
     </noscript>
-    <script type="module" src="/ai-empowered-visibility-61/src/main.tsx"></script>
+    <script>
+      // Inlined JavaScript from dist folder
+      import { createRoot } from 'react-dom/client';
+      import App from '/ai-empowered-visibility-61/src/App.tsx';
+      import '/ai-empowered-visibility-61/src/index.css';
+
+      createRoot(document.getElementById("root")).render(<App />);
+      // Add other inlined JavaScript here
+    </script>
   </body>
 </html>

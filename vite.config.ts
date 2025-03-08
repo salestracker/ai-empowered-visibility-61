@@ -5,7 +5,7 @@ import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  base: '/ai-empowered-visibility-61/',
+  base: "/ai-empowered-visibility-61/",
   server: {
     host: "::",
     port: 8080,

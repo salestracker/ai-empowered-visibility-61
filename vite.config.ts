@@ -4,16 +4,15 @@ import path from "path";
 import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
-export default defineConfig(({ mode }) => ({
-  base: mode === 'build' ? '/ai-empowered-visibility-61/' : '/',
+export default defineConfig(({ command }) => ({
+  base: command === "build" ? "/ai-empowered-visibility-61/" : "/",
   server: {
     host: "::",
     port: 8080,
   },
   plugins: [
     react(),
-    mode === 'build' &&
-    componentTagger(),
+    command === "build" && componentTagger(),
   ].filter(Boolean),
   resolve: {
     alias: {
@@ -22,7 +21,7 @@ export default defineConfig(({ mode }) => ({
   },
   build: {
     rollupOptions: {
-      external: []
-    }
-  }
+      external: [],
+    },
+  },
 }));

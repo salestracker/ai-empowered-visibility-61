@@ -1,0 +1,55 @@
+{
+  "name": "AI ERP Dashboard",
+  "short_name": "AI ERP",
+  "description": "AI-powered ERP dashboard for modern businesses",
+  "start_url": "/ai-empowered-visibility-61/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#ffffff",
+  "theme_color": "#3b82f6",
+  "icons": [
+    {
+      "src": "/ai-empowered-visibility-61/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/ai-empowered-visibility-61/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/ai-empowered-visibility-61/icon-maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/ai-empowered-visibility-61/screenshot-desktop.png",
+      "sizes": "1920x1080",
+      "type": "image/png",
+      "form_factor": "wide"
+    },
+    {
+      "src": "/ai-empowered-visibility-61/screenshot-mobile.png",
+      "sizes": "750x1334",
+      "type": "image/png",
+      "form_factor": "narrow"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Dashboard",
+      "url": "/ai-empowered-visibility-61/",
+      "icons": [{ "src": "/ai-empowered-visibility-61/icon-96.png", "sizes": "96x96" }]
+    }
+  ],
+  "categories": ["business", "productivity"],
+  "dir": "auto",
+  "lang": "en",
+  "prefer_related_applications": false
+}

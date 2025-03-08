@@ -5,14 +5,14 @@ import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  base: mode === 'development' ? '/' : '/ai-empowered-visibility-61/',
+  base: mode === 'build' ? '/ai-empowered-visibility-61/' : '/',
   server: {
     host: "::",
     port: 8080,
   },
   plugins: [
     react(),
-    mode === 'development' &&
+    mode === 'build' &&
     componentTagger(),
   ].filter(Boolean),
   resolve: {

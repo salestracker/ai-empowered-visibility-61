@@ -4,3 +4,13 @@ git checkout main
 git pull origin main
 git checkout -b fix-sync-issues
 git merge main
+
+# Resolve any merge conflicts
+# Add and commit the resolved files
+git add .
+git commit -m "Resolved merge conflicts with main branch"
+
+# Push the changes to the remote repository
+git push origin fix-sync-issues
+
+# Create a pull request to merge the fix-sync-issues branch into the main branch

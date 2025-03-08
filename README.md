@@ -67,3 +67,24 @@ Simply open [Lovable](https://lovable.dev/projects/0b193fdf-b7b1-4b5c-91f4-787cb
 ## I want to use a custom domain - is that possible?
 
 We don't support custom domains (yet). If you want to deploy your project under your own domain then we recommend using Netlify. Visit our docs for more details: [Custom domains](https://docs.lovable.dev/tips-tricks/custom-domain/)
+
+## How to deploy to GitHub Pages
+
+To deploy this project as a static site on GitHub Pages, follow these steps:
+
+1. Ensure you have `gh-pages` installed as a dependency. If not, you can add it by running:
+   ```sh
+   npm install gh-pages --save-dev
+   ```
+
+2. Build the project by running:
+   ```sh
+   npm run build
+   ```
+
+3. Deploy the `dist` directory to GitHub Pages by running:
+   ```sh
+   npm run deploy
+   ```
+
+Your site should now be live on GitHub Pages.
